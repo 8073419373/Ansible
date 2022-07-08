@@ -1,21 +1,18 @@
-AWS Installation & Setup
+#AWS Installation & Setup
 #Ubuntu Control machine/tower
 # User Data
 sudo apt update
 sudo apt install software-properties-common
 sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible
-
 #Secutity Group
 #22 from my IP
-
+====================================================================================
 #Node setup
-#In Ansible tower edit host file and ass private IP in it.
-vi /etc/ansible/hosts
+#In Ansible tower edit host file and add private IP in it.
+sudo vi /etc/ansible/hosts
 
-{
 # This is the default ansible 'hosts' file.
-#
 # It should live in /etc/ansible/hosts
 #
 #   - Comments begin with the '#' character
@@ -40,16 +37,13 @@ Node2 IP
 ## beta.example.org
 ## 192.168.1.100
 "hosts" [readonly] 44L, 1016C
-}
 #Save hosts file
-
-
+======================================================================================
 #Now update Ansible config file
-vi /etc/ansible/ansible.config
+vi /etc/ansible/ansible.cfg
 
-#Make changes to inventory & sudo-user=root
+#Uncomment the inventory & sudo-user=root
 
-{
 # config file for ansible -- https://ansible.com/
 # ===============================================
 
@@ -75,9 +69,34 @@ sudo_user      = root
 #ask_sudo_pass = True
 "ansible.cfg" [readonly] 490L, 19985C
 
-}
-
 #Save Ansible config
+======================================================================================
+
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible                               # To install Ansible on Ubuntu Master node.
+
+sudo adduser ansible -y                                # Run on both master and slave nodes
+sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
+sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory and sudo_user line in master node alone.
+sudo usermod -aG sudo ansible                          # Run on master and slave nodes.
+sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
+sudo apt update                                        # run on tower and all slave nodes.
+sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authentication Yes & Password Authentication Yes" in tower and all slave nodes.
+service ssh restart                                    # To restart ssh in master and slave nodes ==> choose ansible ==> give password ansible ==> then exit
+service ssh status                                     # Run in both master and slave nodes.
+ssh-keygen                                             # To generate keys just go forward by pressing enter thrice
+ssh <PrivateIP of slave> ==> password ansible ==> exit # Run ssh test with password to check authentication with password on master node
+sudo chmod 775 . ==> password ansible                  # run to change permissions
+ls -a                                                  # to list the directory .ssh
+sudo chmod 775 .ssh/                                   # run to change permissions
+cd .ssh/                                               # To get in current directory .ssh
+ssh-copy-id ansible@<PrivateIP of slave> ==>exit       # run in master node
+su ansible                                             # Switch to ansible user
+ssh <PrivateIP of slave>                               # This must create passwordless authentication onto slave nodes
+
+=============================================================================================
 
 
 
@@ -87,9 +106,12 @@ sudo_user      = root
 
 
 
-#Target Webservers 2 & Database Server 1
 
-#Centos for Webservers 2 & Database Server 1
-#diffrent SGs
-#22 from my IP
-#22 from Ubuntu Control machine/tower
+
+
+
+
+
+
+
+
