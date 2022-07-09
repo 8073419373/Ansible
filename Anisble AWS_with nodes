@@ -87,7 +87,6 @@ sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authe
 service ssh restart                                    # To restart ssh in master and slave nodes ==> choose ansible ==> give password ansible ==> then exit
 service ssh status                                     # Run in both master and slave nodes.
 ssh-keygen                                             # To generate keys just go forward by pressing enter thrice
-ssh <PrivateIP of slave> ==> password ansible ==> exit # Run ssh test with password to check authentication with password on master node
 sudo chmod 775 . ==> password ansible                  # run to change permissions
 ls -a                                                  # to list the directory .ssh
 sudo chmod 775 .ssh/                                   # run to change permissions
