@@ -79,7 +79,7 @@ sudo apt install ansible -y                            # To install Ansible on U
 
 sudo adduser ansible -y                                # Run on both master and slave nodes
 sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
-sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory and sudo_user line in master node alone.
+sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory      = /etc/ansible/hosts\n and sudo_user      = root line in master node alone.
 sudo usermod -aG sudo ansible                          # Run on master and slave nodes.
 sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
 sudo apt update                                        # run on tower and all slave nodes.
