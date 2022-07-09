@@ -92,7 +92,7 @@ ls -a                                                  # to list the directory .
 sudo chmod 775 .ssh/                                   # run to change permissions
 cd .ssh/                                               # To get in current directory .ssh
 ssh-copy-id ansible@<PrivateIP of slave> ==>exit       # run in master node
-su ansible                                             # Switch to ansible user
+su ansible ==> password ansible                        # Switch to ansible user
 ssh <PrivateIP of slave>                               # This must create passwordless authentication onto slave nodes
 
 =============================================================================================
