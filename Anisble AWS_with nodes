@@ -82,7 +82,7 @@ sudo adduser ansible -y                                # Run on both master and 
 sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
 sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory      = /etc/ansible/hosts\n and sudo_user      = root line in master node alone.
 sudo usermod -aG sudo ansible                          # Run on master and slave nodes.
-sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
+sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" and ansible ALL=(ALL:ALL) ALL in tower and all slave nodes.
 sudo apt update                                        # run on tower and all slave nodes.
 sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authentication Yes & Password Authentication Yes" in tower and all slave nodes.
 service ssh restart                                    # To restart ssh in master and slave nodes ==> choose ansible ==> give password ansible ==> then exit
@@ -112,7 +112,7 @@ passwd ansible]                                        # To add user and passwor
 sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
 sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory      = /etc/ansible/hosts\n and sudo_user      = root line in master node alone.
 [usermod -aG wheel ansible]                            # This is to run for centos operating system Run on master and slave nodes.
-sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
+sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" and ansible ALL=(ALL:ALL) ALL in tower and all slave nodes.
 [yum update]                                           # for centos
 sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authentication Yes & Password Authentication Yes" in tower and all slave nodes.
 [sudo systemctl restart sshd.service]                  # for centos to restart ssh  ==> choose ansible ==> give password ansible ==> then exit
