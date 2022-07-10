@@ -71,6 +71,7 @@ sudo_user      = root
 
 #Save Ansible config
 ======================================================================================
+[Follow the below steps to make ubuntu as ansible server]
 
 sudo apt update
 sudo apt install software-properties-common -y
@@ -78,20 +79,14 @@ sudo add-apt-repository --yes --update ppa:ansible/ansible
 sudo apt install ansible -y                            # To install Ansible on Ubuntu Master node.
 
 sudo adduser ansible -y                                # Run on both master and slave nodes
-[adduser ansible
-passwd ansible]                                        # To add user and password in centos
 sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
 sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory      = /etc/ansible/hosts\n and sudo_user      = root line in master node alone.
 sudo usermod -aG sudo ansible                          # Run on master and slave nodes.
-[usermod -aG wheel ansible]                            # This is to run for centos operating system
 sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
 sudo apt update                                        # run on tower and all slave nodes.
-[yum update]                                           # for centos
 sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authentication Yes & Password Authentication Yes" in tower and all slave nodes.
 service ssh restart                                    # To restart ssh in master and slave nodes ==> choose ansible ==> give password ansible ==> then exit
-[sudo systemctl restart sshd.service]                  # for centos to restart ssh
 service ssh status                                     # Run in both master and slave nodes.
-[sudo systemctl status sshd.service]                   # To check ssh status in centos
 ssh-keygen                                             # To generate keys just go forward by pressing enter thrice
 sudo chmod 775 . ==> password ansible                  # run to change permissions
 ls -a                                                  # to list the directory .ssh
@@ -102,6 +97,35 @@ su ansible ==> password ansible                        # Switch to ansible user
 ssh <PrivateIP of slave>                               # This must create passwordless authentication onto slave nodes
 
 =============================================================================================
+[Follow below commands to make centos server as ansible master node]
+
+yum update -y
+yum repolist
+yum install wget -y
+wget http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
+yum install ansible -y
+ansible --version
+
+[adduser ansible
+passwd ansible]                                        # To add user and password in centos
+sudo vi /etc/ansible/hosts                             # Edit to add IP of slave nodes in master node alone.
+sudo vi /etc/ansible/ansible.cfg                       # Uncomment inventory      = /etc/ansible/hosts\n and sudo_user      = root line in master node alone.
+[usermod -aG wheel ansible]                            # This is to run for centos operating system Run on master and slave nodes.
+sudo visudo                                            # add "%ansible ALL=(ALL) NOPASSWD:ALL" in tower and all slave nodes.
+[yum update]                                           # for centos
+sudo vi /etc/ssh/sshd_config                           # uncomment "PubKey Authentication Yes & Password Authentication Yes" in tower and all slave nodes.
+[sudo systemctl restart sshd.service]                  # for centos to restart ssh  ==> choose ansible ==> give password ansible ==> then exit
+[sudo systemctl status sshd.service]                   # To check ssh status in centos Run in both master and slave nodes.
+ssh-keygen                                             # To generate keys just go forward by pressing enter thrice
+sudo chmod 775 . ==> password ansible                  # run to change permissions
+ls -a                                                  # to list the directory .ssh
+sudo chmod 775 .ssh/                                   # run to change permissions
+cd .ssh/                                               # To get in current directory .ssh
+ssh-copy-id ansible@<PrivateIP of slave> ==>exit       # run in master node
+su ansible ==> password ansible                        # Switch to ansible user
+ssh <PrivateIP of slave>                               # This must create passwordless authentication onto slave nodes
+
 
 
 
